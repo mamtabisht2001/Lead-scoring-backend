@@ -16,3 +16,16 @@ model Offer {
     createdAt     DateTime @default(now())
     updatedAt     DateTime @default(now())
 }
+
+
+model Lead {
+  id           String   @id @default(cuid())
+  name         String
+  role         String
+  company      String
+  industry     String
+  location     String
+  linkedin_bio String
+  createdAt    DateTime @default(now())
+  updatedAt     DateTime @default(now())
+}

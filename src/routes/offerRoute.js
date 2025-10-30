@@ -3,6 +3,6 @@ const router = express.Router();
 
 import { createOffer } from "../controllers/offerController.js";
 
-router.post("/create-offer", createOffer);
+router.post("/offer", createOffer);
 
 export default router;
