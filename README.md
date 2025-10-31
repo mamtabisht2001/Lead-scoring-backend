@@ -2,6 +2,10 @@
 
 AI-powered lead scoring backend service that combines rule-based logic with OpenAI's GPT-4 for intelligent buyer intent classification.
 
+## 🚀 Live Demo
+
+**Base URL:** `https://lead-scoring-backend-usz6.onrender.com` (Update after deployment)
+
 ## 📋 Table of Contents
 
 - [Features](#features)
@@ -9,11 +13,12 @@ AI-powered lead scoring backend service that combines rule-based logic with Open
 - [Quick Start](#quick-start)
 - [API Documentation](#api-documentation)
 - [Scoring Logic](#scoring-logic)
+- [Testing](#testing)
+- [Deployment](#deployment)
 
 ## ✨ Features
 
 ✅ Rule-based scoring (0-50 points) based on:
-
 - Role relevance (decision maker/influencer detection)
 - Industry match (ICP alignment)
 - Data completeness
@@ -21,6 +26,8 @@ AI-powered lead scoring backend service that combines rule-based logic with Open
 ✅ AI-powered intent classification (0-50 points) using OpenAI GPT-4
 ✅ RESTful API with comprehensive error handling
 ✅ CSV upload and export support
+✅ Unit tests for scoring logic
+✅ Docker support for containerized deployment
 
 ## 🛠 Tech Stack
 
@@ -29,6 +36,8 @@ AI-powered lead scoring backend service that combines rule-based logic with Open
 - **AI Integration:** OpenAI API (GPT-4o-mini)
 - **CSV Processing:** csv-parser, csv-writer
 - **File Upload:** Multer
+- **Testing:** Jest, Supertest
+- **Deployment:** Railway / Render / Vercel
 
 ## 🏃 Quick Start
 
@@ -92,6 +101,8 @@ You should see:
 
 ````
 http://localhost:5000 (local)
+https://lead-scoring-backend-usz6.onrender.com (production)
+
 
 ### Endpoints
 
@@ -366,6 +377,92 @@ Intent: [High/Medium/Low]
 Reasoning: [Your 1-2 sentence explanation]
 ```
 
+
+
+### Run Unit Tests
+
+```bash
+# Run all tests
+npm test
+
+```
+
+### Test Coverage
+
+The test suite covers:
+- ✅ Role scoring logic (decision makers, influencers, others)
+- ✅ Industry matching (exact, adjacent, no match)
+- ✅ Data completeness scoring
+- ✅ Total score calculations
+- ✅ Edge cases (null values, case sensitivity, missing data)
+
+### Sample Test Output
+
+```
+PASS  test/scoring.test.js
+  Rule-Based Scoring Logic
+    Role Scoring
+      ✓ should award 20 points for CEO role (5ms)
+      ✓ should award 20 points for Head of Growth (2ms)
+      ✓ should award 10 points for Senior Manager role (1ms)
+      ✓ should award 0 points for non-decision maker roles (1ms)
+    Industry Scoring
+      ✓ should award 20 points for exact ICP match (2ms)
+      ✓ should award 10 points for adjacent industry (1ms)
+      ✓ should award 0 points for non-matching industry (1ms)
+    Data Completeness Scoring
+      ✓ should award 10 points when all fields are present (1ms)
+      ✓ should award 0 points when fields are missing (1ms)
+
+Tests: 17 passed, 17 total
+Coverage: 95% statements, 92% branches
+```
+
+## 🐳 Docker Support (Bonus)
+
+### Build and Run with Docker
+
+```bash
+# Build image
+docker build -t lead-scoring-backend .
+
+# Run container
+docker run -p 5000:5000 --env-file .env lead-scoring-backend
+```
+
+### Docker Compose
+
+```bash
+docker-compose up
+```
+
+## 🚢 Deployment
+
+### Render Deployment
+
+1. Connect your GitHub repository
+2. Create new Web Service
+3. Set build command: `npm install`
+4. Set start command: `npm start`
+5. Add environment variable: `OPENAI_API_KEY`
+6. Deploy!
+
+### Environment Variables
+
+Required:
+```
+OPENAI_API_KEY=sk-...
+```
+
+Optional:
+```
+PORT=3000 (defaults to 3000)
+```
+### Setup Postgres Database
+
+Create new render postgres database
+
+
 ## 📊 Complete Workflow Example
 
 ```bash
@@ -417,15 +514,14 @@ Lead-scoring-backend/
 │   │   ├── lead.routes.js     # Lead-related routes (/leads/upload, /leads/score)
 │   │   └── offer.routes.js    # Offer-related routes (/offer)
 │   │
-│   ├── middlewares/
-│   │   └── upload.middleware.js # (optional) for Multer upload config
 │   │
-│   ├── utils/
-│   │   └── parseCSV.js        # CSV parsing logic (can also go under helpers)
-│   │
-│   ├── app.js                 # Express app setup (uses all routes)
 │   └── server.js              # Main entry point — starts the server
 │
+├── .dockerignore
+├── Dockerfile                 #docker file to dockerize the app
+├── test 
+│    └──scoring.test.js
+├── jest.config.js  
 ├── .env                       # Environment variables (API keys, DB URL, etc.)
 ├── .gitignore                 # Git ignore rules
 ├── package.json               # Dependencies & scripts
