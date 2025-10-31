@@ -396,28 +396,41 @@ curl http://localhost:5000/results/export -o scored_leads.csv
 
 ```
 Lead-scoring-backend/
-├──prisma
-   ├──migrations              #migration files
-   ├──prisma.js               #PrismaClient
-   ├──schema.prisma           #tables
-├── src                       # Main application folder
-    ├──config                 #configuration folder
-       ├──openAi.js
-    ├── controllers           #main controller folder
-        ├──leadController.js
-        ├──offerController.js
-    ├── helper
-        ├── leadHelper.js
-    ├── routes
-        ├── index.js          #index file of routes
-        ├── leadRoute.js
-        ├── offerRoute.js
-    ├── server.js            # Main application server file
-├── package.json             # Dependencies
-├── .env                     # Environment variables (not committed)
-├── .gitignore               # Git ignore rules
-├── README.md                # This file
-```
+├── prisma/
+│   ├── migrations/            # Auto-generated migration files
+│   ├── prisma.js              # Exports PrismaClient instance
+│   └── schema.prisma          # Database schema definition
+│
+├── src/
+│   ├── config/
+│   │   └── openAi.js          # OpenAI or Gemini configuration & API setup
+│   │
+│   ├── controllers/
+│   │   ├── lead.controller.js # Handles /leads routes logic
+│   │   └── offer.controller.js# Handles /offer routes logic
+│   │
+│   ├── helpers/
+│   │   └── lead.helper.js     # Lead parsing, scoring, CSV logic, etc.
+│   │
+│   ├── routes/
+│   │   ├── index.js           # Combines and exports all routes
+│   │   ├── lead.routes.js     # Lead-related routes (/leads/upload, /leads/score)
+│   │   └── offer.routes.js    # Offer-related routes (/offer)
+│   │
+│   ├── middlewares/
+│   │   └── upload.middleware.js # (optional) for Multer upload config
+│   │
+│   ├── utils/
+│   │   └── parseCSV.js        # CSV parsing logic (can also go under helpers)
+│   │
+│   ├── app.js                 # Express app setup (uses all routes)
+│   └── server.js              # Main entry point — starts the server
+│
+├── .env                       # Environment variables (API keys, DB URL, etc.)
+├── .gitignore                 # Git ignore rules
+├── package.json               # Dependencies & scripts
+├── README.md                  # Setup instructions & API usage
+
 
 
 ## 🐛 Troubleshooting
