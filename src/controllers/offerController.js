@@ -11,24 +11,19 @@ export const createOffer = async (req, res) => {
       });
     }
 
-    await prisma.offer.create({
+  const offer=  await prisma.offer.create({
       data: {
-        name: name,
-        valueProps: value_props,
-        idealUseCases: ideal_use_cases,
+        name,
+        value_props,
+        ideal_use_cases,
       },
     });
 
     res.status(201).json({
       message: "Offer data saved successfully",
-      offer: offerData,
+      offer: offer,
     });
   } catch (error) {
-    if (error.code === "P2002") {
-      return res.status(409).json({
-        error: `The field name '${name}' already exists.`,
-      });
-    }
     return res.status(500).json({ error: error.message });
   }
 };
